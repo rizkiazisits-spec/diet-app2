@@ -44,7 +44,7 @@ app = FastAPI(
 # CORS — izinkan frontend (akan dikonfigurasi nanti)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Ganti dengan domain spesifik di production
+    allow_origins=["https://diet-app2.vercel.app/"],  # Ganti dengan domain spesifik di production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
