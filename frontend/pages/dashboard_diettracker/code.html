@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DietTracker - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#bec6e0",
+                    "surface-container-highest": "#dee3e9",
+                    "surface": "#f6faff",
+                    "secondary-fixed": "#dae2fd",
+                    "primary-fixed": "#c9e6ff",
+                    "on-surface-variant": "#3e4850",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#4d2b00",
+                    "surface-container-low": "#f0f4fa",
+                    "secondary": "#565e74",
+                    "on-tertiary-fixed": "#2c1600",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#8a5100",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed-variant": "#004c6e",
+                    "surface-bright": "#f6faff",
+                    "inverse-on-surface": "#edf1f7",
+                    "on-primary-fixed": "#001e2f",
+                    "inverse-primary": "#89ceff",
+                    "secondary-container": "#dae2fd",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "primary-container": "#0ea5e9",
+                    "primary": "#006591",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#2c3135",
+                    "on-surface": "#171c20",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "on-primary-container": "#003751",
+                    "on-secondary-fixed": "#131b2e",
+                    "on-background": "#171c20",
+                    "outline": "#6e7881",
+                    "on-tertiary-fixed-variant": "#693c00",
+                    "background": "#f8fafc",
+                    "outline-variant": "#bec8d2",
+                    "tertiary-fixed-dim": "#ffb86e",
+                    "tertiary-container": "#de8712",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#dee3e9",
+                    "surface-container-high": "#e4e8ee",
+                    "on-secondary-container": "#5c647a",
+                    "surface-tint": "#006591",
+                    "tertiary-fixed": "#ffdcbd",
+                    "surface-container": "#eaeef4",
+                    "primary-fixed-dim": "#89ceff",
+                    "surface-dim": "#d6dae0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin": "1.25rem",
+                    "gutter": "1rem",
+                    "stack-md": "1rem",
+                    "stack-lg": "1.5rem",
+                    "stack-sm": "0.5rem"
+            },
+            "fontFamily": {
+                    "text-base": ["Inter"],
+                    "label-md": ["Inter"],
+                    "display-xl-mobile": ["Inter"],
+                    "text-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display-xl": ["Inter"]
+            },
+            "fontSize": {
+                    "text-base": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-xl-mobile": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "text-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .shadow-md {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- Top AppBar -->
+<header class="flex items-center px-container-margin h-16 w-full bg-surface sticky top-0 z-40 transition-shadow">
+<div class="flex justify-between items-center w-full">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary">Selamat pagi, Budi</h1>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container shadow-sm active:scale-95 transition-transform duration-200">
+<img class="w-full h-full object-cover" data-alt="A professional close-up portrait of a friendly Southeast Asian man in his 30s with a clean, modern aesthetic. He is smiling warmly against a soft-focus clinical wellness clinic background with bright natural light and minimalist decor. The image has a high-end, lifestyle photography quality, utilizing soft pastels and a crisp, corporate modern feel that matches a premium health app interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9u56UV3jGC3YsXvEg0rshlfIS53gdoyZcRiZOH_Wsb7geRcvpIWz4N5bp2aysQOXqNTwXaDOZ3w1Dgoz1TmIeGuRj-3ZhUWyEKNnkRCf77rLIB2-q3M-AaDzLZxAUlaT9N1m0UnT-Nv76lAgQXeK3K4BYbJZVbiYpFETPV5H-CupIYFUQDZiM5nVz12Q_pdL_gjhNTQRGL-irEitflXacfFgxX5xOCq4p6RBV1RYTNPIRHmUH4Bv1LXDentnOIZStHBSpqoZUAdLD"/>
+</div>
+</div>
+</header>
+<main class="px-container-margin py-stack-md flex flex-col gap-gutter">
+<!-- Stats Grid (2-column) -->
+<section class="grid grid-cols-2 gap-gutter">
+<!-- Kalori Masuk -->
+<div class="bg-white p-stack-md rounded-xl shadow-md border border-outline-variant/20 active:scale-98 transition-transform">
+<div class="flex justify-between items-start mb-stack-sm">
+<span class="text-on-surface-variant font-label-md text-label-md">Kalori Masuk</span>
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<div class="flex flex-col">
+<span class="font-display-xl-mobile text-display-xl-mobile text-primary">1,840</span>
+<span class="text-on-surface-variant font-text-sm text-text-sm">kcal</span>
+</div>
+</div>
+<!-- Kalori Keluar -->
+<div class="bg-white p-stack-md rounded-xl shadow-md border border-outline-variant/20 active:scale-98 transition-transform">
+<div class="flex justify-between items-start mb-stack-sm">
+<span class="text-on-surface-variant font-label-md text-label-md">Kalori Keluar</span>
+<span class="material-symbols-outlined text-tertiary-container" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+</div>
+<div class="flex flex-col">
+<span class="font-display-xl-mobile text-display-xl-mobile text-on-surface">450</span>
+<span class="text-on-surface-variant font-text-sm text-text-sm">kcal</span>
+</div>
+</div>
+</section>
+<!-- Defisit Card (Wide) -->
+<div class="bg-white p-stack-md rounded-xl shadow-md border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-stack-sm">
+<div class="bg-green-100 p-2 rounded-full">
+<span class="material-symbols-outlined text-[#22c55e]" style="font-variation-settings: 'FILL' 1;">trending_down</span>
+</div>
+<span class="text-on-surface font-text-base text-text-base font-semibold">Defisit Kalori</span>
+</div>
+<div class="text-right">
+<span class="text-[#22c55e] font-display-xl-mobile text-display-xl-mobile">-320</span>
+<span class="text-[#22c55e] font-text-sm text-text-sm ml-1">kcal</span>
+</div>
+</div>
+<!-- Weekly Chart -->
+<section class="bg-white p-stack-md rounded-xl shadow-md border border-outline-variant/20">
+<div class="flex justify-between items-center mb-stack-lg">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile font-semibold text-on-surface">Laporan Mingguan</h2>
+<span class="text-primary font-label-md text-label-md">Lihat Semua</span>
+</div>
+<div class="flex items-end justify-between h-32 gap-2 mt-4">
+<!-- Simple bar chart -->
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-surface-container-highest rounded-t-full h-1/2"></div>
+<span class="text-[10px] text-on-surface-variant font-bold">SN</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-surface-container-highest rounded-t-full h-3/4"></div>
+<span class="text-[10px] text-on-surface-variant font-bold">SL</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-surface-container-highest rounded-t-full h-2/3"></div>
+<span class="text-[10px] text-on-surface-variant font-bold">RB</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-primary-container rounded-t-full h-[90%]"></div>
+<span class="text-[10px] text-primary font-bold">KM</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-surface-container-highest rounded-t-full h-1/3"></div>
+<span class="text-[10px] text-on-surface-variant font-bold">JM</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-surface-container-highest rounded-t-full h-1/2"></div>
+<span class="text-[10px] text-on-surface-variant font-bold">SB</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-full bg-surface-container-highest rounded-t-full h-1/4"></div>
+<span class="text-[10px] text-on-surface-variant font-bold">MG</span>
+</div>
+</div>
+</section>
+<!-- Recent Activity -->
+<section class="flex flex-col gap-stack-sm">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile font-semibold text-on-surface px-1">Aktivitas Terakhir</h2>
+<div class="flex flex-col gap-stack-sm">
+<!-- Activity Item 1 -->
+<div class="bg-white p-stack-md rounded-xl shadow-md border border-outline-variant/20 flex items-center justify-between hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-stack-md">
+<div class="bg-primary-container/10 p-2 rounded-lg group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="restaurant">restaurant</span>
+</div>
+<div>
+<p class="font-text-base text-text-base font-semibold text-on-surface leading-tight">Nasi Goreng Ayam</p>
+<p class="font-text-sm text-text-sm text-on-surface-variant">08:15 • Sarapan</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-text-base text-text-base font-bold text-primary">+450</p>
+<p class="font-text-sm text-text-sm text-on-surface-variant">kcal</p>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="bg-white p-stack-md rounded-xl shadow-md border border-outline-variant/20 flex items-center justify-between hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-stack-md">
+<div class="bg-tertiary-container/10 p-2 rounded-lg group-hover:bg-tertiary-container/20 transition-colors">
+<span class="material-symbols-outlined text-tertiary" data-icon="exercise">exercise</span>
+</div>
+<div>
+<p class="font-text-base text-text-base font-semibold text-on-surface leading-tight">Lari Pagi</p>
+<p class="font-text-sm text-text-sm text-on-surface-variant">06:00 • 30 menit</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-text-base text-text-base font-bold text-on-surface-variant">-210</p>
+<p class="font-text-sm text-text-sm text-on-surface-variant">kcal</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-16 px-2 bg-[#0f172a] shadow-md">
+<!-- Dashboard (Active) -->
+<a class="flex flex-col items-center justify-center text-primary-container hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Chat -->
+<a class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-label-md text-label-md">Chat</span>
+</a>
+<!-- History -->
+<a class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+<!-- Diet -->
+<a class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+<span class="font-label-md text-label-md">Diet</span>
+</a>
+<!-- Account -->
+<a class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Account</span>
+</a>
+</nav>
+<!-- Floating Action Button -->
+<button class="fixed bottom-20 right-6 w-14 h-14 bg-primary-container text-on-primary-container rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-transform z-40 border-4 border-background">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<script>
+        // Micro-interaction for scroll depth
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-sm');
+            } else {
+                header.classList.remove('shadow-sm');
+            }
+        });
+    </script>
+</body></html>

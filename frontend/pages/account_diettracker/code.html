@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DietTracker - Account</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-container-highest": "#dee3e9",
+                        "surface": "#f6faff",
+                        "secondary-fixed": "#dae2fd",
+                        "primary-fixed": "#c9e6ff",
+                        "on-surface-variant": "#3e4850",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#4d2b00",
+                        "surface-container-low": "#f0f4fa",
+                        "secondary": "#565e74",
+                        "on-tertiary-fixed": "#2c1600",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#8a5100",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#004c6e",
+                        "surface-bright": "#f6faff",
+                        "inverse-on-surface": "#edf1f7",
+                        "on-primary-fixed": "#001e2f",
+                        "inverse-primary": "#89ceff",
+                        "secondary-container": "#dae2fd",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "primary-container": "#0ea5e9",
+                        "primary": "#006591",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#2c3135",
+                        "on-surface": "#171c20",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-primary-container": "#003751",
+                        "on-secondary-fixed": "#131b2e",
+                        "on-background": "#171c20",
+                        "outline": "#6e7881",
+                        "on-tertiary-fixed-variant": "#693c00",
+                        "background": "#f6faff",
+                        "outline-variant": "#bec8d2",
+                        "tertiary-fixed-dim": "#ffb86e",
+                        "tertiary-container": "#de8712",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#dee3e9",
+                        "surface-container-high": "#e4e8ee",
+                        "on-secondary-container": "#5c647a",
+                        "surface-tint": "#006591",
+                        "tertiary-fixed": "#ffdcbd",
+                        "surface-container": "#eaeef4",
+                        "primary-fixed-dim": "#89ceff",
+                        "surface-dim": "#d6dae0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-margin": "1.25rem",
+                        "gutter": "1rem",
+                        "stack-md": "1rem",
+                        "stack-lg": "1.5rem",
+                        "stack-sm": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "text-base": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-xl-mobile": ["Inter"],
+                        "text-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-xl": ["Inter"]
+                    },
+                    "fontSize": {
+                        "text-base": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-xl-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "text-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .profile-ring {
+            background: conic-gradient(from 0deg, #0ea5e9 0%, #0ea5e9 75%, transparent 75%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass-card {
+            background: rgba(30, 30, 30, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface dark:bg-inverse-surface text-on-surface dark:text-inverse-on-surface min-h-screen pb-24 transition-colors duration-300">
+<!-- TopAppBar -->
+<header class="flex items-center px-container-margin h-16 w-full sticky top-0 z-50 bg-surface dark:bg-inverse-surface transition-colors">
+<div class="flex items-center justify-between w-full">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity scale-98 active:scale-95 transition-transform duration-200" data-icon="arrow_back">arrow_back</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary dark:text-primary-fixed-dim">Account</h1>
+</div>
+<button class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md hover:opacity-80 transition-opacity scale-98 active:scale-95" id="editBtn">
+<span class="material-symbols-outlined" data-icon="edit" style="font-size: 18px;">edit</span>
+                Edit
+            </button>
+</div>
+</header>
+<main class="max-w-xl mx-auto px-container-margin space-y-stack-lg pt-4">
+<!-- Profile Header Section -->
+<section class="flex flex-col items-center text-center space-y-stack-md">
+<div class="relative group">
+<div class="w-32 h-32 rounded-full p-1 profile-ring">
+<div class="w-full h-full rounded-full overflow-hidden border-4 border-surface dark:border-inverse-surface">
+<img class="w-full h-full object-cover" data-alt="A professional close-up studio portrait of a healthy, glowing individual in a minimalist clinical setting. Soft, natural lighting highlights clean skin and a friendly expression. The background is a crisp white with subtle blue accents, maintaining a high-end medical-lifestyle aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfsA_m2Oq1udmfM6I7OJ53oUxrw09BQXfTHMBDtcreoVt6djsJnH-3jfEEMHcqgVEGYRlE_-OMkuMYKfP9OC62ydB3anBmmMeF5kINPBoWCmtkkRjgp3xsLKK4AqbUCA7_W9bpqWjv51Dp-J5pd04-Jmu3gXTRHo4fMFr8jh9zhtfx9VT12FTyuTweQ5_Nt3nlZm1fihkc3JmnyuSuxRka0VZdoFk5i-JoZBgkbisQqiqljwLm-ADtlv4t69XjzR66NUcmIDYUrH5D"/>
+</div>
+</div>
+<button class="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full shadow-md scale-98 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="photo_camera">photo_camera</span>
+</button>
+</div>
+<div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile font-bold" id="display-name">Dr. Sarah Miller</h2>
+<p class="font-text-sm text-text-sm text-on-surface-variant dark:text-outline-variant" id="display-email">sarah.miller@healthmail.com</p>
+</div>
+</section>
+<!-- Stats Grid (Bento Style) -->
+<section class="grid grid-cols-2 gap-4">
+<!-- Personal Info Card -->
+<div class="col-span-2 glass-card rounded-xl p-4 shadow-md">
+<h3 class="font-label-md text-label-md text-primary mb-3">PERSONAL IDENTITY</h3>
+<div class="space-y-4">
+<div class="flex flex-col">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Full Name</label>
+<input class="edit-field bg-transparent border-none p-0 focus:ring-0 font-text-base text-text-base font-semibold" readonly="" type="text" value="Dr. Sarah Miller"/>
+</div>
+<div class="flex flex-col">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Email Address</label>
+<input class="edit-field bg-transparent border-none p-0 focus:ring-0 font-text-base text-text-base font-semibold" readonly="" type="email" value="sarah.miller@healthmail.com"/>
+</div>
+</div>
+</div>
+<!-- Health Vitals Cards -->
+<div class="glass-card rounded-xl p-4 shadow-md flex flex-col justify-between">
+<div class="flex items-center gap-2 text-primary mb-2">
+<span class="material-symbols-outlined" data-icon="monitor_weight" style="font-size: 20px">monitor_weight</span>
+<label class="text-[10px] font-bold uppercase tracking-widest">Weight</label>
+</div>
+<div class="flex items-baseline gap-1">
+<input class="edit-field w-12 bg-transparent border-none p-0 focus:ring-0 font-display-xl-mobile text-display-xl-mobile" readonly="" type="text" value="62"/>
+<span class="font-label-md text-label-md text-on-surface-variant">kg</span>
+</div>
+</div>
+<div class="glass-card rounded-xl p-4 shadow-md flex flex-col justify-between">
+<div class="flex items-center gap-2 text-primary mb-2">
+<span class="material-symbols-outlined" data-icon="straighten" style="font-size: 20px">straighten</span>
+<label class="text-[10px] font-bold uppercase tracking-widest">Height</label>
+</div>
+<div class="flex items-baseline gap-1">
+<input class="edit-field w-16 bg-transparent border-none p-0 focus:ring-0 font-display-xl-mobile text-display-xl-mobile" readonly="" type="text" value="168"/>
+<span class="font-label-md text-label-md text-on-surface-variant">cm</span>
+</div>
+</div>
+<div class="glass-card rounded-xl p-4 shadow-md flex flex-col justify-between">
+<div class="flex items-center gap-2 text-primary mb-2">
+<span class="material-symbols-outlined" data-icon="event" style="font-size: 20px">event</span>
+<label class="text-[10px] font-bold uppercase tracking-widest">Age</label>
+</div>
+<div class="flex items-baseline gap-1">
+<input class="edit-field w-12 bg-transparent border-none p-0 focus:ring-0 font-display-xl-mobile text-display-xl-mobile" readonly="" type="text" value="29"/>
+<span class="font-label-md text-label-md text-on-surface-variant">yrs</span>
+</div>
+</div>
+<div class="glass-card rounded-xl p-4 shadow-md flex flex-col justify-between">
+<div class="flex items-center gap-2 text-primary mb-2">
+<span class="material-symbols-outlined" data-icon="wc" style="font-size: 20px">wc</span>
+<label class="text-[10px] font-bold uppercase tracking-widest">Gender</label>
+</div>
+<select class="edit-field appearance-none bg-transparent border-none p-0 focus:ring-0 font-text-base text-text-base font-semibold" disabled="">
+<option selected="">Female</option>
+<option>Male</option>
+<option>Other</option>
+</select>
+</div>
+<!-- Target Section -->
+<div class="col-span-2 glass-card rounded-xl p-4 shadow-md">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-label-md text-label-md text-primary">NUTRITION TARGET</h3>
+<span class="material-symbols-outlined text-primary" data-icon="track_changes">track_changes</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Goal</label>
+<input class="edit-field bg-transparent border-none p-0 focus:ring-0 font-text-base text-text-base font-semibold" readonly="" type="text" value="Lean Muscle Gain"/>
+</div>
+<div class="flex flex-col">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Deadline</label>
+<input class="edit-field bg-transparent border-none p-0 focus:ring-0 font-text-base text-text-base font-semibold" readonly="" type="date" value="2024-12-31"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Settings List -->
+<section class="space-y-4">
+<h3 class="font-label-md text-label-md text-primary px-2">PREFERENCES</h3>
+<div class="glass-card rounded-xl overflow-hidden shadow-md">
+<div class="flex items-center justify-between p-4 hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer" onclick="toggleDarkMode()">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="dark_mode">dark_mode</span>
+<span class="font-text-base text-text-base">Dark Mode</span>
+</div>
+<div class="w-12 h-6 bg-outline-variant rounded-full relative transition-colors duration-300" id="theme-toggle-bg">
+<div class="w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 shadow transition-transform duration-300 transform translate-x-0" id="theme-toggle-circle"></div>
+</div>
+</div>
+<div class="h-[1px] bg-outline-variant/20 mx-4"></div>
+<div class="flex items-center justify-between p-4 hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="font-text-base text-text-base">Notifications</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="h-[1px] bg-outline-variant/20 mx-4"></div>
+<div class="flex items-center justify-between p-4 hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer text-error">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-text-base text-text-base font-bold">Logout Account</span>
+</div>
+</div>
+</div>
+</section>
+<!-- App Branding -->
+<div class="py-8 text-center opacity-30">
+<h4 class="font-label-md text-label-md">DIETTRACKER PRO V2.4</h4>
+</div>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-16 px-2 bg-[#0f172a] shadow-md">
+<div class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-label-md text-label-md">Chat</span>
+</div>
+<div class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">History</span>
+</div>
+<div class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+<span class="font-label-md text-label-md">Diet</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary-container scale-98 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-md text-label-md">Account</span>
+</div>
+</nav>
+<script>
+        const editBtn = document.getElementById('editBtn');
+        const editFields = document.querySelectorAll('.edit-field');
+        const themeToggleBg = document.getElementById('theme-toggle-bg');
+        const themeToggleCircle = document.getElementById('theme-toggle-circle');
+        let isEditing = false;
+
+        editBtn.addEventListener('click', () => {
+            isEditing = !isEditing;
+            
+            if(isEditing) {
+                editBtn.innerHTML = `<span class="material-symbols-outlined" style="font-size: 18px;" data-icon="check">check</span> Save`;
+                editBtn.classList.remove('bg-primary-container');
+                editBtn.classList.add('bg-green-600', 'text-white');
+                
+                editFields.forEach(field => {
+                    field.removeAttribute('readonly');
+                    field.removeAttribute('disabled');
+                    field.classList.add('bg-primary/5', 'rounded', 'px-1');
+                });
+            } else {
+                editBtn.innerHTML = `<span class="material-symbols-outlined" style="font-size: 18px;" data-icon="edit">edit</span> Edit`;
+                editBtn.classList.add('bg-primary-container');
+                editBtn.classList.remove('bg-green-600', 'text-white');
+                
+                editFields.forEach(field => {
+                    field.setAttribute('readonly', true);
+                    if(field.tagName === 'SELECT') field.setAttribute('disabled', true);
+                    field.classList.remove('bg-primary/5', 'rounded', 'px-1');
+                });
+
+                // Update display strings
+                document.getElementById('display-name').innerText = editFields[0].value;
+                document.getElementById('display-email').innerText = editFields[1].value;
+            }
+        });
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            
+            if(isDark) {
+                themeToggleBg.classList.replace('bg-outline-variant', 'bg-primary-container');
+                themeToggleCircle.classList.add('translate-x-6');
+            } else {
+                themeToggleBg.classList.replace('bg-primary-container', 'bg-outline-variant');
+                themeToggleCircle.classList.remove('translate-x-6');
+            }
+        }
+    </script>
+</body></html>

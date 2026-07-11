@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DietTracker - Rekomendasi Makanan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .bento-card {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .bento-card:active {
+            transform: scale(0.98);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-container-highest": "#dee3e9",
+                        "surface": "#f6faff",
+                        "secondary-fixed": "#dae2fd",
+                        "primary-fixed": "#c9e6ff",
+                        "on-surface-variant": "#3e4850",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#4d2b00",
+                        "surface-container-low": "#f0f4fa",
+                        "secondary": "#565e74",
+                        "on-tertiary-fixed": "#2c1600",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#8a5100",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#004c6e",
+                        "surface-bright": "#f6faff",
+                        "inverse-on-surface": "#edf1f7",
+                        "on-primary-fixed": "#001e2f",
+                        "inverse-primary": "#89ceff",
+                        "secondary-container": "#dae2fd",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "primary-container": "#0ea5e9",
+                        "primary": "#006591",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#2c3135",
+                        "on-surface": "#171c20",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-primary-container": "#003751",
+                        "on-secondary-fixed": "#131b2e",
+                        "on-background": "#171c20",
+                        "outline": "#6e7881",
+                        "on-tertiary-fixed-variant": "#693c00",
+                        "background": "#f6faff",
+                        "outline-variant": "#bec8d2",
+                        "tertiary-fixed-dim": "#ffb86e",
+                        "tertiary-container": "#de8712",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#dee3e9",
+                        "surface-container-high": "#e4e8ee",
+                        "on-secondary-container": "#5c647a",
+                        "surface-tint": "#006591",
+                        "tertiary-fixed": "#ffdcbd",
+                        "surface-container": "#eaeef4",
+                        "primary-fixed-dim": "#89ceff",
+                        "surface-dim": "#d6dae0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-margin": "1.25rem",
+                        "gutter": "1rem",
+                        "stack-md": "1rem",
+                        "stack-lg": "1.5rem",
+                        "stack-sm": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "text-base": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-xl-mobile": ["Inter"],
+                        "text-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-xl": ["Inter"]
+                    },
+                    "fontSize": {
+                        "text-base": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-xl-mobile": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "text-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- Top AppBar -->
+<header class="bg-surface sticky top-0 z-40 w-full flex items-center px-container-margin h-16 shadow-sm">
+<div class="flex items-center gap-4 w-full">
+<button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-95" data-icon="arrow_back">arrow_back</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary truncate">Rekomendasi Makanan Pengganti</h1>
+</div>
+</header>
+<main class="px-container-margin py-stack-lg max-w-2xl mx-auto space-y-stack-lg">
+<!-- Hero Visual Section (Animated Background) -->
+<div class="relative overflow-hidden rounded-xl h-48 flex flex-col justify-end p-6 text-white shadow-md">
+
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+<div class="relative z-10">
+<p class="font-label-md text-label-md uppercase tracking-wider opacity-90">Daily Goal Tracker</p>
+<h2 class="font-display-xl-mobile text-display-xl-mobile">Capai Defisit Lebih Mudah</h2>
+<p class="text-sm opacity-80 mt-1">Ganti pilihanmu dengan alternatif yang lebih rendah kalori namun tetap mengenyangkan.</p>
+</div>
+</div>
+<!-- Recommendations Grid -->
+<div class="space-y-stack-md">
+<h3 class="font-headline-lg text-headline-lg text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+                Opsi Hari Ini
+            </h3>
+<!-- Recommendation Card 1 -->
+<div class="bento-card glass-panel border border-outline-variant/30 rounded-xl p-4 shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="eco">eco</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="font-text-base text-text-base font-bold text-on-surface">🍚 Nasi Putih → 🌾 Nasi Merah</h4>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter">Lebih sehat</span>
+</div>
+<p class="font-text-sm text-text-sm text-on-surface-variant mt-1">200 → 150 <span class="font-bold text-primary">(hemat 50 kal)</span></p>
+</div>
+<div class="flex-shrink-0">
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Recommendation Card 2 -->
+<div class="bento-card glass-panel border border-outline-variant/30 rounded-xl p-4 shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-tertiary" data-icon="fastfood">fastfood</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="font-text-base text-text-base font-bold text-on-surface">🍟 Kentang Goreng → 🥔 Kentang Rebus</h4>
+<span class="bg-error/10 text-error px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter">Turun 180 kalori</span>
+</div>
+<p class="font-text-sm text-text-sm text-on-surface-variant mt-1">312 → 132 <span class="font-bold text-tertiary">(hemat 180 kal)</span></p>
+</div>
+<div class="flex-shrink-0">
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Recommendation Card 3 -->
+<div class="bento-card glass-panel border border-outline-variant/30 rounded-xl p-4 shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-secondary" data-icon="local_drink">local_drink</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="font-text-base text-text-base font-bold text-on-surface">🥤 Soda Manis → 💧 Air Infused</h4>
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter">Bebas Gula</span>
+</div>
+<p class="font-text-sm text-text-sm text-on-surface-variant mt-1">140 → 5 <span class="font-bold text-primary">(hemat 135 kal)</span></p>
+</div>
+<div class="flex-shrink-0">
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Recommendation Card 4 -->
+<div class="bento-card glass-panel border border-outline-variant/30 rounded-xl p-4 shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="egg_alt">egg_alt</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="font-text-base text-text-base font-bold text-on-surface">🍳 Telur Goreng → 🥚 Telur Rebus</h4>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter">Lebih sehat</span>
+</div>
+<p class="font-text-sm text-text-sm text-on-surface-variant mt-1">90 → 70 <span class="font-bold text-primary">(hemat 20 kal)</span></p>
+</div>
+<div class="flex-shrink-0">
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Tip of the Day Card -->
+<div class="bg-surface-container-high rounded-2xl p-6 border border-outline-variant/20">
+<div class="flex items-start gap-4">
+<div class="p-3 bg-white rounded-xl shadow-sm">
+<span class="material-symbols-outlined text-tertiary" data-icon="lightbulb">lightbulb</span>
+</div>
+<div>
+<h5 class="font-bold text-on-surface">Tips Diet Hari Ini</h5>
+<p class="text-sm text-on-surface-variant mt-1 leading-relaxed">
+                        Cobalah mengganti cemilan soremu dengan buah-buahan segar. Selain rendah kalori, serat dalam buah membuatmu merasa kenyang lebih lama hingga jam makan malam.
+                    </p>
+</div>
+</div>
+</div>
+<!-- Featured Image Section -->
+<div class="relative rounded-2xl overflow-hidden aspect-video shadow-lg">
+<img class="w-full h-full object-cover" data-alt="A professional high-angle culinary shot of a modern minimalist meal prep layout. One side shows a dark, polished plate with white rice and fried food, while the other side shows a vibrant, brightly lit ceramic plate with red rice, steamed vegetables, and grilled protein. The aesthetic is clean, medical-grade corporate wellness style with soft natural lighting and a clinical but inviting color palette of whites and deep blues." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpzPZaWT6npSV02g0j3c0K2ApVTYE0aglb5Y_D13sLpivJwUVe3Yz4vlgevNsBZI8IwBGbhJTWb2U3_dw7hWuFTHFzcZjxEErSNHQZkxGYBhlIdbRbaTBcmnwCtTh6gLSzsZXsi80UPqXG4xkl1QpPZhYObZW9NioUQz6FtFV2hSwd3P6ICKijhLtXfnq4CrFD03GWC_Xr8U_TjHFkZU7hwApPXX50EyX9XdSbsSqBMkEpi9SrlE5uEvleMfRMmWhNEJ6xkYDowFLE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+<div class="text-white">
+<p class="font-bold text-lg">Visualisasi Porsi Ideal</p>
+<p class="text-xs opacity-80">Lihat bagaimana 500 kalori terlihat berbeda antara nasi putih dan merah.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-16 px-2 bg-[#0f172a] shadow-md">
+<!-- Dashboard -->
+<a class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md mt-1">Dashboard</span>
+</a>
+<!-- Chat -->
+<a class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="chat">chat</span>
+<span class="font-label-md text-label-md mt-1">Chat</span>
+</a>
+<!-- History -->
+<a class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="history">history</span>
+<span class="font-label-md text-label-md mt-1">History</span>
+</a>
+<!-- Diet (Active based on context: Rekomendasi/Diet) -->
+<a class="flex flex-col items-center justify-center text-primary-container hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="restaurant" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+<span class="font-label-md text-label-md mt-1">Diet</span>
+</a>
+<!-- Account -->
+<a class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="person">person</span>
+<span class="font-label-md text-label-md mt-1">Account</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for cards
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.style.transform = 'scale(0.96)';
+                setTimeout(() => {
+                    card.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Simple scroll observer for the app bar
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-lg');
+                header.classList.add('bg-white/90');
+                header.classList.add('backdrop-blur-md');
+            } else {
+                header.classList.remove('shadow-lg');
+                header.classList.remove('bg-white/90');
+                header.classList.remove('backdrop-blur-md');
+            }
+        });
+    </script>
+</body></html>

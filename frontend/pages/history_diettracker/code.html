@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DietTracker - Riwayat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config Verbatim -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#bec6e0",
+                    "surface-container-highest": "#dee3e9",
+                    "surface": "#f6faff",
+                    "secondary-fixed": "#dae2fd",
+                    "primary-fixed": "#c9e6ff",
+                    "on-surface-variant": "#3e4850",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#4d2b00",
+                    "surface-container-low": "#f0f4fa",
+                    "secondary": "#565e74",
+                    "on-tertiary-fixed": "#2c1600",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#8a5100",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed-variant": "#004c6e",
+                    "surface-bright": "#f6faff",
+                    "inverse-on-surface": "#edf1f7",
+                    "on-primary-fixed": "#001e2f",
+                    "inverse-primary": "#89ceff",
+                    "secondary-container": "#dae2fd",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "primary-container": "#0ea5e9",
+                    "primary": "#006591",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#2c3135",
+                    "on-surface": "#171c20",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "on-primary-container": "#003751",
+                    "on-secondary-fixed": "#131b2e",
+                    "on-background": "#171c20",
+                    "outline": "#6e7881",
+                    "on-tertiary-fixed-variant": "#693c00",
+                    "background": "#f6faff",
+                    "outline-variant": "#bec8d2",
+                    "tertiary-fixed-dim": "#ffb86e",
+                    "tertiary-container": "#de8712",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#dee3e9",
+                    "surface-container-high": "#e4e8ee",
+                    "on-secondary-container": "#5c647a",
+                    "surface-tint": "#006591",
+                    "tertiary-fixed": "#ffdcbd",
+                    "surface-container": "#eaeef4",
+                    "primary-fixed-dim": "#89ceff",
+                    "surface-dim": "#d6dae0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin": "1.25rem",
+                    "gutter": "1rem",
+                    "stack-md": "1rem",
+                    "stack-lg": "1.5rem",
+                    "stack-sm": "0.5rem"
+            },
+            "fontFamily": {
+                    "text-base": ["Inter"],
+                    "label-md": ["Inter"],
+                    "display-xl-mobile": ["Inter"],
+                    "text-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display-xl": ["Inter"]
+            },
+            "fontSize": {
+                    "text-base": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-xl-mobile": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "text-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab-indicator {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f6faff;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-20">
+<!-- TopAppBar Mapping -->
+<header class="bg-surface dark:bg-inverse-surface flex items-center px-container-margin h-16 w-full sticky top-0 z-40">
+<div class="flex items-center gap-4 w-full">
+<button class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity scale-98 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary dark:text-primary-fixed-dim">Riwayat</h1>
+</div>
+</header>
+<main class="px-container-margin pt-4 space-y-6">
+<!-- Filter Chips Section -->
+<div class="flex items-center gap-2 overflow-x-auto hide-scrollbar -mx-5 px-5 py-2">
+<button class="px-6 py-2 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md whitespace-nowrap shadow-sm scale-98 active:scale-95 transition-transform duration-200">
+                Hari Ini
+            </button>
+<button class="px-6 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:bg-surface-variant transition-colors scale-98 active:scale-95 transition-transform duration-200">
+                Minggu Ini
+            </button>
+<button class="px-6 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:bg-surface-variant transition-colors scale-98 active:scale-95 transition-transform duration-200">
+                Bulan Ini
+            </button>
+</div>
+<!-- Custom Content: Summary Bento Grid -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-md border border-outline-variant/10 flex flex-col justify-between">
+<div>
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Total Kalori</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold mt-1">1,840</h3>
+</div>
+<div class="mt-4 text-sm text-green-600 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_down</span>
+<span>-12% vs Kemarin</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-md border border-outline-variant/10 flex flex-col justify-between">
+<div>
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Aktivitas</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-tertiary-container font-bold mt-1">45m</h3>
+</div>
+<div class="mt-4 text-sm text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>3 Sesi Olahraga</span>
+</div>
+</div>
+</div>
+<!-- Tabs Section -->
+<div class="bg-surface-container-high p-1 rounded-xl flex">
+<button class="flex-1 py-2 text-center rounded-lg font-label-md text-label-md transition-all bg-white text-primary shadow-sm" id="tab-makanan" onclick="switchTab('makanan')">
+                Makanan
+            </button>
+<button class="flex-1 py-2 text-center rounded-lg font-label-md text-label-md transition-all text-on-surface-variant" id="tab-olahraga" onclick="switchTab('olahraga')">
+                Olahraga
+            </button>
+</div>
+<!-- Entry List Container -->
+<div class="space-y-4" id="entry-list">
+<!-- Makanan Cards -->
+<div class="makanan-items space-y-4">
+<!-- Breakfast -->
+<div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 hover:opacity-95 transition-opacity active:scale-98">
+<div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-2xl">
+                        🍳
+                    </div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-lg-mobile text-text-base font-bold text-on-surface">Omelet Bayam &amp; Roti Gandum</h4>
+<span class="text-primary font-bold">320 kcal</span>
+</div>
+<div class="flex items-center gap-2 mt-1 text-on-surface-variant font-text-sm text-text-sm">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>24 Okt 2023</span>
+<span class="mx-1">•</span>
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>07:30</span>
+</div>
+</div>
+</div>
+<!-- Lunch -->
+<div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 hover:opacity-95 transition-opacity active:scale-98">
+<div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-2xl">
+                        🥗
+                    </div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-lg-mobile text-text-base font-bold text-on-surface">Salad Ayam Bakar</h4>
+<span class="text-primary font-bold">450 kcal</span>
+</div>
+<div class="flex items-center gap-2 mt-1 text-on-surface-variant font-text-sm text-text-sm">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>24 Okt 2023</span>
+<span class="mx-1">•</span>
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>12:45</span>
+</div>
+</div>
+</div>
+<!-- Dinner -->
+<div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 hover:opacity-95 transition-opacity active:scale-98">
+<div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-2xl">
+                        🍣
+                    </div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-lg-mobile text-text-base font-bold text-on-surface">Sushi Sashimi Mix</h4>
+<span class="text-primary font-bold">380 kcal</span>
+</div>
+<div class="flex items-center gap-2 mt-1 text-on-surface-variant font-text-sm text-text-sm">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>23 Okt 2023</span>
+<span class="mx-1">•</span>
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>19:15</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Olahraga Items (Hidden by default) -->
+<div class="olahraga-items space-y-4 hidden">
+<div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 hover:opacity-95 transition-opacity active:scale-98">
+<div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-2xl">
+                        🏋️
+                    </div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-lg-mobile text-text-base font-bold text-on-surface">Latihan Beban (Upper Body)</h4>
+<span class="text-tertiary font-bold">-250 kcal</span>
+</div>
+<div class="flex items-center gap-2 mt-1 text-on-surface-variant font-text-sm text-text-sm">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>24 Okt 2023</span>
+<span class="mx-1">•</span>
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>17:00</span>
+</div>
+</div>
+</div>
+<div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 hover:opacity-95 transition-opacity active:scale-98">
+<div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-2xl">
+                        🏃
+                    </div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-lg-mobile text-text-base font-bold text-on-surface">Lari Sore</h4>
+<span class="text-tertiary font-bold">-400 kcal</span>
+</div>
+<div class="flex items-center gap-2 mt-1 text-on-surface-variant font-text-sm text-text-sm">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>23 Okt 2023</span>
+<span class="mx-1">•</span>
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>16:30</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Insight Card -->
+<section class="mt-8">
+<div class="relative overflow-hidden rounded-2xl h-48 flex items-center justify-center">
+<div class="absolute inset-0 z-0 bg-slate-900">
+
+</div>
+<div class="relative z-10 text-center px-6">
+<h5 class="text-white font-headline-lg-mobile text-headline-lg-mobile font-bold">Lacak Progresmu</h5>
+<p class="text-white/80 font-text-sm text-text-sm mt-2 max-w-xs mx-auto">Grafik mingguan menunjukkan asupan kalori Anda tetap stabil di angka 1800 kcal.</p>
+<button class="mt-4 px-6 py-2 bg-white text-slate-900 rounded-full font-label-md text-label-md font-bold hover:bg-opacity-90 transition-all">Lihat Detail</button>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar Mapping -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-16 px-2 bg-[#0f172a] shadow-md">
+<!-- Dashboard -->
+<a class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Chat -->
+<a class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-label-md text-label-md">Chat</span>
+</a>
+<!-- History (ACTIVE) -->
+<a class="flex flex-col items-center justify-center text-primary-container hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+<!-- Diet -->
+<a class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+<span class="font-label-md text-label-md">Diet</span>
+</a>
+<!-- Account -->
+<a class="flex flex-col items-center justify-center text-white hover:bg-white/10 transition-colors scale-98 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Account</span>
+</a>
+</nav>
+<script>
+        function switchTab(type) {
+            const foodBtn = document.getElementById('tab-makanan');
+            const sportBtn = document.getElementById('tab-olahraga');
+            const foodItems = document.querySelector('.makanan-items');
+            const sportItems = document.querySelector('.olahraga-items');
+
+            if (type === 'makanan') {
+                foodBtn.classList.add('bg-white', 'text-primary', 'shadow-sm');
+                foodBtn.classList.remove('text-on-surface-variant');
+                sportBtn.classList.remove('bg-white', 'text-primary', 'shadow-sm');
+                sportBtn.classList.add('text-on-surface-variant');
+                
+                foodItems.classList.remove('hidden');
+                sportItems.classList.add('hidden');
+            } else {
+                sportBtn.classList.add('bg-white', 'text-primary', 'shadow-sm');
+                sportBtn.classList.remove('text-on-surface-variant');
+                foodBtn.classList.remove('bg-white', 'text-primary', 'shadow-sm');
+                foodBtn.classList.add('text-on-surface-variant');
+
+                sportItems.classList.remove('hidden');
+                foodItems.classList.add('hidden');
+            }
+        }
+    </script>
+</body></html>
