@@ -79,6 +79,10 @@ export default function Account() {
     setSaving(true);
     try {
       const payload = {
+        name: form.name,
+        avatar_url: form.avatarUrl,
+        goal: form.goal,
+        deadline: form.deadline,
         berat_badan: Number(form.weight),
         tinggi_badan: Number(form.height),
         umur: Number(form.age),
