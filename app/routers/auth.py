@@ -165,3 +165,39 @@ async def update_profile(
     await db.flush()
     await db.refresh(current_user)
     return UserProfile.model_validate(current_user)
+
+
+from pydantic import BaseModel
+
+class RefreshRequest(BaseModel):
+    refresh_token: str
+
+@router.post(
+    "/refresh",
+    response_model=AuthResponse,
+    summary="Refresh token akses",
+    description="Menggunakan refresh token untuk memperbarui JWT access token yang kedaluwarsa.",
+)
+async def refresh_token(payload: RefreshRequest) -> AuthResponse:
+    """Refresh session menggunakan refresh token."""
+    try:
+        supabase = get_supabase_client()
+        response = supabase.auth.refresh_session(payload.refresh_token)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Refresh token gagal: {str(e)}",
+        )
+
+    if response.session is None or response.user is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Session tidak valid setelah refresh",
+        )
+
+    return AuthResponse(
+        access_token=response.session.access_token,
+        refresh_token=response.session.refresh_token,
+        user_id=response.user.id,
+        email=response.user.email or "",
+    )

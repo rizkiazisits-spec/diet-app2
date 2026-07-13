@@ -19,7 +19,7 @@ export default function Login() {
     setLoading(true);
     try {
       const res = await apiLogin(email, password);
-      login(res.data.access_token);
+      login(res.data.access_token, res.data.refresh_token);
       navigate('/');
     } catch (err) {
       const detail = err.response?.data?.detail;

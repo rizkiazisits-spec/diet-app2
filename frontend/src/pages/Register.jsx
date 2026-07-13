@@ -25,7 +25,7 @@ export default function Register() {
       await apiRegister(email, password);
       // Auto-login after register
       const res = await apiLogin(email, password);
-      login(res.data.access_token);
+      login(res.data.access_token, res.data.refresh_token);
       navigate('/');
     } catch (err) {
       const detail = err.response?.data?.detail;
