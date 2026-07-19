@@ -7,39 +7,113 @@ import { useNavigate } from 'react-router-dom';
 export default function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [caloriesIn, setCaloriesIn] = useState(0);
-  const [caloriesOut, setCaloriesOut] = useState(0);
-  const [activities, setActivities] = useState([]);
+  const [foodHistory, setFoodHistory] = useState([]);
+  const [exerciseHistory, setExerciseHistory] = useState([]);
 
   useEffect(() => {
     getFoodHistory().then((r) => {
-      const items = r.data || [];
-      setCaloriesIn(items.reduce((s, i) => s + (i.kalori || 0), 0));
-      setActivities((prev) => {
-        const existing = prev.filter((a) => a.type !== 'food');
-        const newItems = items.map((i) => ({ ...i, type: 'food', displayTime: '08:15', displaySubtitle: 'Sarapan' }));
-        return [...newItems, ...existing];
-      });
+      setFoodHistory(r.data || []);
     }).catch(() => {});
 
     getExerciseHistory().then((r) => {
-      const items = r.data || [];
-      setCaloriesOut(items.reduce((s, i) => s + (i.kalori_terbakar || 0), 0));
-      setActivities((prev) => {
-        const existing = prev.filter((a) => a.type !== 'exercise');
-        const newItems = items.map((i) => ({ ...i, type: 'exercise', displayTime: '06:00', displaySubtitle: '30 menit' }));
-        return [...existing, ...newItems];
-      });
+      setExerciseHistory(r.data || []);
     }).catch(() => {});
   }, []);
 
   const name = user?.name || localStorage.getItem('profile_name') || user?.email?.split('@')[0] || 'Budi';
   const avatarUrl = user?.avatar_url || localStorage.getItem('profile_avatar') || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150&q=80';
 
-  // Realistic mock data matching Image 3 if database is empty
-  const displayCaloriesIn = caloriesIn || 1840;
-  const displayCaloriesOut = caloriesOut || 450;
-  const displayDeficit = (caloriesIn === 0 && caloriesOut === 0) ? -320 : (displayCaloriesOut - displayCaloriesIn);
+  // Helper function to format Date to YYYY-MM-DD in local time
+  const getLocalDateString = (dateObj) => {
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  // Helper to format ISO Date to local time HH:MM
+  const formatTime = (isoString) => {
+    if (!isoString) return '08:00';
+    try {
+      const d = new Date(isoString);
+      const hrs = String(d.getHours()).padStart(2, '0');
+      const mins = String(d.getMinutes()).padStart(2, '0');
+      return `${hrs}:${mins}`;
+    } catch (e) {
+      return '08:00';
+    }
+  };
+
+  // Helper to categorize meal time based on hour
+  const getMealTimeLabel = (isoString) => {
+    if (!isoString) return 'Sarapan';
+    try {
+      const d = new Date(isoString);
+      const hour = d.getHours();
+      if (hour >= 4 && hour < 11) return 'Sarapan';
+      if (hour >= 11 && hour < 15) return 'Makan Siang';
+      if (hour >= 15 && hour < 18) return 'Cemilan';
+      if (hour >= 18 && hour < 22) return 'Makan Malam';
+      return 'Cemilan Malam';
+    } catch (e) {
+      return 'Sarapan';
+    }
+  };
+
+  // Helper for exercise subtitle
+  const getExerciseLabel = (item) => {
+    return `${item.durasi_menit || 30} menit`;
+  };
+
+  // Helper to format calorie display value (e.g. 1500 -> 1.5k)
+  const formatCalorieVal = (val) => {
+    if (val === 0) return '';
+    if (val >= 1000) {
+      const kVal = val / 1000;
+      return kVal % 1 === 0 ? `${kVal}k` : `${kVal.toFixed(1)}k`;
+    }
+    return Math.round(val).toString();
+  };
+
+  // Helper to get days of the current week (Monday to Sunday)
+  const getCurrentWeekDays = () => {
+    const today = new Date();
+    const day = today.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+    const diffToMonday = today.getDate() - day + (day === 0 ? -6 : 1);
+    const monday = new Date(today);
+    monday.setDate(diffToMonday);
+    
+    const days = [];
+    const daysFull = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+    
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(monday);
+      d.setDate(monday.getDate() + i);
+      days.push({
+        dateStr: getLocalDateString(d),
+        dayName: daysFull[i],
+        isToday: getLocalDateString(d) === getLocalDateString(today),
+      });
+    }
+    return days;
+  };
+
+  const todayStr = getLocalDateString(new Date());
+
+  const todayCaloriesIn = foodHistory
+    .filter(item => item.tanggal === todayStr)
+    .reduce((sum, item) => sum + (item.kalori || 0), 0);
+
+  const todayCaloriesOut = exerciseHistory
+    .filter(item => item.tanggal === todayStr)
+    .reduce((sum, item) => sum + (item.kalori_terbakar || 0), 0);
+
+  // Fallback to mock values only if history has absolutely no logs
+  const hasRealLogs = foodHistory.length > 0 || exerciseHistory.length > 0;
+  
+  const displayCaloriesIn = hasRealLogs ? todayCaloriesIn : 1840;
+  const displayCaloriesOut = hasRealLogs ? todayCaloriesOut : 450;
+  const displayDeficit = hasRealLogs ? (displayCaloriesOut - displayCaloriesIn) : -320;
 
   const defaultActivities = [
     {
@@ -60,26 +134,56 @@ export default function Dashboard() {
     }
   ];
 
-  const listActivities = activities.length > 0
-    ? activities.map((a) => ({
-        type: a.type,
-        name: a.makanan || a.olahraga || 'Aktivitas',
-        displayTime: a.displayTime || '08:00',
-        displaySubtitle: a.displaySubtitle || (a.type === 'food' ? 'Sarapan' : '30 menit'),
-        val: a.type === 'food' ? `+${Math.round(a.kalori)} kcal` : `-${Math.round(a.kalori_terbakar)} kcal`,
-        isBurn: a.type === 'exercise',
-      }))
-    : defaultActivities;
+  const combinedActivities = [
+    ...foodHistory.map((item) => ({
+      ...item,
+      type: 'food',
+      name: item.makanan,
+      displayTime: formatTime(item.created_at),
+      displaySubtitle: getMealTimeLabel(item.created_at),
+      val: `+${Math.round(item.kalori)} kcal`,
+      isBurn: false,
+      timestamp: new Date(item.created_at || item.tanggal).getTime(),
+    })),
+    ...exerciseHistory.map((item) => ({
+      ...item,
+      type: 'exercise',
+      name: item.olahraga,
+      displayTime: formatTime(item.created_at),
+      displaySubtitle: getExerciseLabel(item),
+      val: `-${Math.round(item.kalori_terbakar)} kcal`,
+      isBurn: true,
+      timestamp: new Date(item.created_at || item.tanggal).getTime(),
+    }))
+  ].sort((a, b) => b.timestamp - a.timestamp);
 
-  const weekBars = [
-    { day: 'SN', h: '45%', val: '1.2k' },
-    { day: 'SL', h: '55%', val: '1.5k' },
-    { day: 'RB', h: '75%', val: '1.8k' },
-    { day: 'KM', h: '80%', val: '1.8k', active: true },
-    { day: 'JM', h: '60%', val: '1.6k' },
-    { day: 'SB', h: '30%', val: '900' },
-    { day: 'MG', h: '45%', val: '1.3k' },
-  ];
+  const listActivities = hasRealLogs ? combinedActivities.slice(0, 5) : defaultActivities;
+
+  const weekDays = getCurrentWeekDays();
+  
+  const weekBars = weekDays.map((dayObj, index) => {
+    if (hasRealLogs) {
+      const dayFoods = foodHistory.filter(item => item.tanggal === dayObj.dateStr);
+      const totalCal = dayFoods.reduce((sum, item) => sum + (item.kalori || 0), 0);
+      const heightPercent = totalCal > 0 ? `${Math.min(100, Math.max(15, (totalCal / 2000) * 100))}%` : '8px';
+      return {
+        day: dayObj.dayName,
+        h: heightPercent,
+        val: totalCal > 0 ? formatCalorieVal(totalCal) : '',
+        active: dayObj.isToday,
+      };
+    } else {
+      const mockVals = [1200, 1500, 1800, 1800, 1600, 900, 1300];
+      const val = mockVals[index];
+      const heightPercent = `${Math.min(100, Math.max(15, (val / 2000) * 100))}%`;
+      return {
+        day: dayObj.dayName,
+        h: heightPercent,
+        val: formatCalorieVal(val),
+        active: dayObj.isToday,
+      };
+    }
+  });
 
   return (
     <div className="min-h-screen bg-[#f6faff] dark:bg-[#0a0a0a] pb-28 md:pb-8 text-[#171c20] dark:text-[#f8fafc] font-sans">
@@ -158,12 +262,13 @@ export default function Dashboard() {
             </button>
           </div>
           {/* Chart Container */}
-          <div className="h-40 flex items-end justify-between px-2 pt-6 relative border-b border-slate-100 dark:border-neutral-800/50 pb-2">
+          <div className="h-44 flex items-end justify-between px-1 pt-8 relative pb-2 bg-slate-50/50 dark:bg-neutral-900/30 rounded-xl p-3 border border-slate-100/50 dark:border-neutral-800/30">
             {/* Target lines in the background */}
-            <div className="absolute inset-x-0 top-12 border-t border-dashed border-slate-200 dark:border-neutral-800/80">
+            <div className="absolute inset-x-3 top-10 border-t border-dashed border-slate-200 dark:border-neutral-800/80">
               <span className="absolute left-2 -top-4 text-[9px] font-bold text-slate-400 dark:text-neutral-500">Target (1,500 kcal)</span>
             </div>
-            <div className="absolute inset-x-0 top-24 border-t border-dashed border-slate-200/40 dark:border-neutral-800/20" />
+            <div className="absolute inset-x-3 top-20 border-t border-dashed border-slate-200/40 dark:border-neutral-800/20" />
+            <div className="absolute inset-x-3 top-30 border-t border-dashed border-slate-200/20 dark:border-neutral-800/10" />
 
             {weekBars.map((b) => (
               <div key={b.day} className="flex flex-col items-center w-full group cursor-pointer h-full justify-end relative z-10">
@@ -171,22 +276,24 @@ export default function Dashboard() {
                 <span className={`text-[9px] font-bold mb-1.5 transition-all ${
                   b.active ? 'text-[#0ea5e9] font-extrabold scale-105' : 'text-slate-400 dark:text-neutral-500'
                 }`}>
-                  {b.val}
+                  {b.val || '\u00A0'}
                 </span>
                 
                 {/* Bar */}
                 <div
-                  className={`w-[22px] rounded-t-full transition-all duration-300 ${
+                  className={`w-[24px] rounded-t-full transition-all duration-300 hover:scale-105 ${
                     b.active
-                      ? 'bg-gradient-to-t from-[#006591] to-[#0ea5e9] shadow-[0_4px_12px_rgba(14,165,233,0.3)]'
-                      : 'bg-slate-300 dark:bg-neutral-800 hover:bg-[#0ea5e9]/50'
+                      ? 'bg-gradient-to-t from-[#006591] to-[#0ea5e9] shadow-[0_4px_12px_rgba(14,165,233,0.35)]'
+                      : b.h === '8px'
+                        ? 'bg-slate-200 dark:bg-neutral-800/40'
+                        : 'bg-slate-300 dark:bg-neutral-800 hover:bg-[#0ea5e9]/40'
                   }`}
                   style={{ height: b.h }}
                 />
                 
                 {/* Day Label */}
-                <span className={`text-[10px] mt-2 font-bold ${
-                  b.active ? 'text-[#0ea5e9] font-extrabold' : 'text-slate-400 dark:text-neutral-500'
+                <span className={`text-[10px] mt-2 font-bold px-1.5 py-0.5 rounded-md transition-all ${
+                  b.active ? 'bg-[#0ea5e9]/10 text-[#0ea5e9] font-extrabold' : 'text-slate-400 dark:text-neutral-500'
                 }`}>{b.day}</span>
               </div>
             ))}
