@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './AuthContext';
 import Layout from './components/Layout';
 import Login from './pages/Login';
@@ -9,10 +9,25 @@ import History from './pages/History';
 import DietPlan from './pages/DietPlan';
 import Rekomendasi from './pages/Rekomendasi';
 import Account from './pages/Account';
+import Onboarding from './pages/Onboarding';
 
 function ProtectedLayout() {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
+  const location = useLocation();
+
   if (!token) return <Navigate to="/login" replace />;
+
+  const isCompleted = localStorage.getItem('onboarding_completed') === 'true';
+  const isMissingStats = user && (!user.berat_badan || !user.tinggi_badan);
+
+  if (isMissingStats && !isCompleted && location.pathname !== '/onboarding') {
+    return <Navigate to="/onboarding" replace />;
+  }
+
+  if (location.pathname === '/onboarding') {
+    return <Onboarding />;
+  }
+
   return (
     <Layout>
       <Outlet />
@@ -39,6 +54,7 @@ export default function App() {
           {/* Protected routes */}
           <Route element={<ProtectedLayout />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/history" element={<History />} />
             <Route path="/diet-plan" element={<DietPlan />} />

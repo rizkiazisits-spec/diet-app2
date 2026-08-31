@@ -108,31 +108,9 @@ export default function Dashboard() {
     .filter(item => item.tanggal === todayStr)
     .reduce((sum, item) => sum + (item.kalori_terbakar || 0), 0);
 
-  // Fallback to mock values only if history has absolutely no logs
-  const hasRealLogs = foodHistory.length > 0 || exerciseHistory.length > 0;
-  
-  const displayCaloriesIn = hasRealLogs ? todayCaloriesIn : 1840;
-  const displayCaloriesOut = hasRealLogs ? todayCaloriesOut : 450;
-  const displayDeficit = hasRealLogs ? (displayCaloriesOut - displayCaloriesIn) : -320;
-
-  const defaultActivities = [
-    {
-      type: 'food',
-      name: 'Nasi Goreng Ayam',
-      displayTime: '08:15',
-      displaySubtitle: 'Sarapan',
-      val: '+450 kcal',
-      isBurn: false,
-    },
-    {
-      type: 'exercise',
-      name: 'Lari Pagi',
-      displayTime: '06:00',
-      displaySubtitle: '30 menit',
-      val: '-210 kcal',
-      isBurn: true,
-    }
-  ];
+  const displayCaloriesIn = todayCaloriesIn;
+  const displayCaloriesOut = todayCaloriesOut;
+  const displayDeficit = displayCaloriesOut - displayCaloriesIn;
 
   const combinedActivities = [
     ...foodHistory.map((item) => ({
@@ -157,32 +135,20 @@ export default function Dashboard() {
     }))
   ].sort((a, b) => b.timestamp - a.timestamp);
 
-  const listActivities = hasRealLogs ? combinedActivities.slice(0, 5) : defaultActivities;
+  const listActivities = combinedActivities.slice(0, 5);
 
   const weekDays = getCurrentWeekDays();
   
-  const weekBars = weekDays.map((dayObj, index) => {
-    if (hasRealLogs) {
-      const dayFoods = foodHistory.filter(item => item.tanggal === dayObj.dateStr);
-      const totalCal = dayFoods.reduce((sum, item) => sum + (item.kalori || 0), 0);
-      const heightPercent = totalCal > 0 ? `${Math.min(100, Math.max(15, (totalCal / 2000) * 100))}%` : '8px';
-      return {
-        day: dayObj.dayName,
-        h: heightPercent,
-        val: totalCal > 0 ? formatCalorieVal(totalCal) : '',
-        active: dayObj.isToday,
-      };
-    } else {
-      const mockVals = [1200, 1500, 1800, 1800, 1600, 900, 1300];
-      const val = mockVals[index];
-      const heightPercent = `${Math.min(100, Math.max(15, (val / 2000) * 100))}%`;
-      return {
-        day: dayObj.dayName,
-        h: heightPercent,
-        val: formatCalorieVal(val),
-        active: dayObj.isToday,
-      };
-    }
+  const weekBars = weekDays.map((dayObj) => {
+    const dayFoods = foodHistory.filter(item => item.tanggal === dayObj.dateStr);
+    const totalCal = dayFoods.reduce((sum, item) => sum + (item.kalori || 0), 0);
+    const heightPercent = totalCal > 0 ? `${Math.min(100, Math.max(15, (totalCal / 2000) * 100))}%` : '8px';
+    return {
+      day: dayObj.dayName,
+      h: heightPercent,
+      val: totalCal > 0 ? formatCalorieVal(totalCal) : '',
+      active: dayObj.isToday,
+    };
   });
 
   return (
@@ -304,34 +270,40 @@ export default function Dashboard() {
         <section className="space-y-3">
           <h3 className="text-sm font-bold text-slate-800 dark:text-neutral-200">Aktivitas Terakhir</h3>
           <div className="flex flex-col gap-3">
-            {listActivities.map((a, i) => (
-              <div
-                key={i}
-                className="glass-card bg-white dark:bg-[#1e1e1e] p-4 rounded-2xl flex items-center justify-between border border-slate-100 dark:border-neutral-800 transition-all hover:translate-x-0.5"
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${
-                    a.type === 'food'
-                      ? 'bg-[#0ea5e9]/10 text-[#0ea5e9]'
-                      : 'bg-[#de8712]/10 text-[#de8712]'
-                  }`}>
-                    {a.type === 'food' ? <Utensils className="w-5 h-5" /> : <Dumbbell className="w-5 h-5" />}
+            {listActivities.length === 0 ? (
+              <p className="text-xs text-slate-400 dark:text-neutral-500 py-6 text-center">
+                Belum ada aktivitas dicatat.
+              </p>
+            ) : (
+              listActivities.map((a, i) => (
+                <div
+                  key={i}
+                  className="glass-card bg-white dark:bg-[#1e1e1e] p-4 rounded-2xl flex items-center justify-between border border-slate-100 dark:border-neutral-800 transition-all hover:translate-x-0.5"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${
+                      a.type === 'food'
+                        ? 'bg-[#0ea5e9]/10 text-[#0ea5e9]'
+                        : 'bg-[#de8712]/10 text-[#de8712]'
+                    }`}>
+                      {a.type === 'food' ? <Utensils className="w-5 h-5" /> : <Dumbbell className="w-5 h-5" />}
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-800 dark:text-neutral-200">{a.name}</h4>
+                      <p className="text-[11px] text-slate-400 dark:text-neutral-500 font-semibold mt-0.5">
+                        {a.displayTime} • {a.displaySubtitle}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-800 dark:text-neutral-200">{a.name}</h4>
-                    <p className="text-[11px] text-slate-400 dark:text-neutral-500 font-semibold mt-0.5">
-                      {a.displayTime} • {a.displaySubtitle}
-                    </p>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-sm font-bold ${a.isBurn ? 'text-slate-600 dark:text-neutral-400' : 'text-[#006591] dark:text-[#89ceff]'}`}>
+                      {a.val}
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-slate-300" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className={`text-sm font-bold ${a.isBurn ? 'text-slate-600 dark:text-neutral-400' : 'text-[#006591] dark:text-[#89ceff]'}`}>
-                    {a.val}
-                  </span>
-                  <ChevronRight className="w-4 h-4 text-slate-300" />
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </section>
       </main>

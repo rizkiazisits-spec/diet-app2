@@ -19,36 +19,6 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef(null);
 
-  // Seed default conversation to match Image 2 if empty
-  useEffect(() => {
-    if (messages.length === 0) {
-      setMessages([
-        {
-          role: 'user',
-          text: 'Makan Nasi Padang porsi sedang pake rendang dan sayur nangka. Terus tadi pagi lari 30 menit.',
-          time: '12:30 PM'
-        },
-        {
-          role: 'ai',
-          time: '12:31 PM',
-          isAnalysis: true,
-          analysisData: {
-            totalIn: 850,
-            totalOut: 320,
-            deficit: -530,
-            foods: [
-              { name: 'Nasi Padang (Medium)', kalori: 650 },
-              { name: 'Rendang Sapi', kalori: 200 }
-            ],
-            exercises: [
-              { name: 'Lari Pagi (30m)', kalori: 320 }
-            ],
-            ringkasan: 'Bagus! Olahraga pagi membantu metabolisme Anda tetap tinggi setelah makan siang yang cukup berat.'
-          }
-        }
-      ]);
-    }
-  }, []);
 
   useEffect(() => {
     localStorage.setItem('chat_history', JSON.stringify(messages));
