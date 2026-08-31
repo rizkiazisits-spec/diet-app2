@@ -23,11 +23,10 @@ async def test_food_tools() -> None:
     assert result_caps["ditemukan"] is True
     assert result_caps["kalori_per_porsi"] == 267.0
 
-    # Test makanan yang tidak terdaftar
+    # Test makanan yang tidak terdaftar (menggunakan AI/fallback estimation)
     result_unknown = await cari_makanan("makanan_tidak_dikenal_sama_sekali")
-    assert result_unknown["ditemukan"] is False
-    assert result_unknown["kalori_per_porsi"] == 0
-    assert result_unknown["sumber"] == "tidak_ditemukan"
+    assert result_unknown["ditemukan"] is True
+    assert result_unknown["sumber"] in ["estimasi_ai", "estimasi_default"]
 
     print("[OK] test_food_tools passed!")
 

@@ -26,7 +26,7 @@ export default function Register() {
       // Auto-login after register
       const res = await apiLogin(email, password);
       login(res.data.access_token, res.data.refresh_token);
-      navigate('/');
+      navigate('/onboarding');
     } catch (err) {
       const detail = err.response?.data?.detail;
       const msg = typeof detail === 'string'

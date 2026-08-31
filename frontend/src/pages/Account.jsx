@@ -14,31 +14,30 @@ export default function Account() {
   const [verified, setVerified] = useState(true); // interactive verified badge
 
   const [form, setForm] = useState({
-    name: user?.name || localStorage.getItem('profile_name') || 'Cakajiz56',
-    email: user?.email || 'cakajiz56@gmail.com',
+    name: user?.name || user?.email?.split('@')[0] || '',
+    email: user?.email || '',
     avatarUrl: user?.avatar_url || localStorage.getItem('profile_avatar') || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&h=300&q=80',
-    goal: user?.goal || localStorage.getItem('profile_goal') || 'Lean Muscle Gain',
-    deadline: user?.deadline || localStorage.getItem('profile_deadline') || '2024-12-31',
-    weight: user?.berat_badan || 62,
-    height: user?.tinggi_badan || 168,
-    age: user?.umur || 29,
+    goal: user?.goal || localStorage.getItem('profile_goal') || 'Belum diatur',
+    deadline: user?.deadline || localStorage.getItem('profile_deadline') || '-',
+    weight: user?.berat_badan || '',
+    height: user?.tinggi_badan || '',
+    age: user?.umur || '',
     gender: user?.jenis_kelamin === 'perempuan' ? 'female' : 'male'
   });
 
   useEffect(() => {
     if (user) {
-      setForm((prev) => ({
-        ...prev,
-        name: user.name || prev.name,
-        email: user.email || prev.email,
-        avatarUrl: user.avatar_url || prev.avatarUrl,
-        goal: user.goal || prev.goal,
-        deadline: user.deadline || prev.deadline,
-        weight: user.berat_badan || prev.weight,
-        height: user.tinggi_badan || prev.height,
-        age: user.umur || prev.age,
+      setForm({
+        name: user.name || user.email?.split('@')[0] || '',
+        email: user.email || '',
+        avatarUrl: user.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&h=300&q=80',
+        goal: user.goal || 'Belum diatur',
+        deadline: user.deadline || '-',
+        weight: user.berat_badan || '',
+        height: user.tinggi_badan || '',
+        age: user.umur || '',
         gender: user.jenis_kelamin === 'perempuan' ? 'female' : 'male'
-      }));
+      });
     }
   }, [user]);
   
