@@ -22,10 +22,24 @@ export default function Register() {
     setError('');
     setLoading(true);
     try {
-      await apiRegister(email, password);
-      // Auto-login after register
-      const res = await apiLogin(email, password);
-      login(res.data.access_token, res.data.refresh_token);
+      const regRes = await apiRegister(email, password);
+      let accessToken = regRes.data?.access_token;
+      let refreshToken = regRes.data?.refresh_token;
+
+      if (!accessToken) {
+        try {
+          const loginRes = await apiLogin(email, password);
+          accessToken = loginRes.data?.access_token;
+          refreshToken = loginRes.data?.refresh_token;
+        } catch {
+          // Ignore if auto-login fails
+        }
+      }
+
+      localStorage.removeItem('onboarding_completed');
+      if (accessToken) {
+        login(accessToken, refreshToken);
+      }
       navigate('/onboarding');
     } catch (err) {
       const detail = err.response?.data?.detail;

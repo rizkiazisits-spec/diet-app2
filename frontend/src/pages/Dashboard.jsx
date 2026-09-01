@@ -20,7 +20,7 @@ export default function Dashboard() {
     }).catch(() => {});
   }, []);
 
-  const name = user?.name || localStorage.getItem('profile_name') || user?.email?.split('@')[0] || 'Budi';
+  const name = user?.name || localStorage.getItem('profile_name') || user?.email?.split('@')[0] || 'User';
   const avatarUrl = user?.avatar_url || localStorage.getItem('profile_avatar') || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150&q=80';
 
   // Helper function to format Date to YYYY-MM-DD in local time

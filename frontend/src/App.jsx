@@ -47,8 +47,15 @@ function ProtectedLayout() {
 }
 
 function GuestOnly() {
-  const { token } = useAuth();
-  if (token) return <Navigate to="/" replace />;
+  const { token, user } = useAuth();
+  if (token) {
+    const isCompleted = localStorage.getItem('onboarding_completed') === 'true';
+    const isMissingStats = !user || !user.berat_badan || !user.tinggi_badan;
+    if (isMissingStats && !isCompleted) {
+      return <Navigate to="/onboarding" replace />;
+    }
+    return <Navigate to="/" replace />;
+  }
   return <Outlet />;
 }
 

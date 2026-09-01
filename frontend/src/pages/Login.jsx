@@ -20,7 +20,12 @@ export default function Login() {
     try {
       const res = await apiLogin(email, password);
       login(res.data.access_token, res.data.refresh_token);
-      navigate('/');
+      const isCompleted = localStorage.getItem('onboarding_completed') === 'true';
+      if (!isCompleted) {
+        navigate('/onboarding');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       const detail = err.response?.data?.detail;
       const msg = typeof detail === 'string'
