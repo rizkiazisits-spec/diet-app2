@@ -7,9 +7,12 @@ import { useNavigate } from 'react-router-dom';
 export default function Chat() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const userId = user?.id || 'default';
+  
   const [messages, setMessages] = useState(() => {
     try {
-      const saved = localStorage.getItem('chat_history');
+      const userKey = user?.id ? `chat_history_${user.id}` : null;
+      const saved = (userKey && localStorage.getItem(userKey)) || localStorage.getItem('chat_history');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -19,11 +22,30 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef(null);
 
-
+  // Sync messages when user ID becomes available
   useEffect(() => {
-    localStorage.setItem('chat_history', JSON.stringify(messages));
+    if (user?.id) {
+      const userKey = `chat_history_${user.id}`;
+      const saved = localStorage.getItem(userKey) || localStorage.getItem('chat_history');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed.length > 0) setMessages(parsed);
+        } catch {}
+      }
+    }
+  }, [user?.id]);
+
+  // Persist messages whenever state changes
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem('chat_history', JSON.stringify(messages));
+      if (user?.id) {
+        localStorage.setItem(`chat_history_${user.id}`, JSON.stringify(messages));
+      }
+    }
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, user?.id]);
 
   const handleSend = async (e) => {
     e.preventDefault();
@@ -68,6 +90,9 @@ export default function Chat() {
     if (window.confirm("Hapus semua riwayat obrolan chat?")) {
       setMessages([]);
       localStorage.removeItem('chat_history');
+      if (user?.id) {
+        localStorage.removeItem(`chat_history_${user.id}`);
+      }
     }
   };
 

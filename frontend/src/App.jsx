@@ -28,10 +28,9 @@ function ProtectedLayout() {
     );
   }
 
-  const isCompleted = localStorage.getItem('onboarding_completed') === 'true';
-  const isMissingStats = user && (!user.berat_badan || !user.tinggi_badan);
+  const isCompleted = localStorage.getItem('onboarding_completed') === 'true' || Boolean(user?.berat_badan && user?.tinggi_badan);
 
-  if (isMissingStats && !isCompleted && location.pathname !== '/onboarding') {
+  if (!isCompleted && location.pathname !== '/onboarding') {
     return <Navigate to="/onboarding" replace />;
   }
 
@@ -49,9 +48,8 @@ function ProtectedLayout() {
 function GuestOnly() {
   const { token, user } = useAuth();
   if (token) {
-    const isCompleted = localStorage.getItem('onboarding_completed') === 'true';
-    const isMissingStats = !user || !user.berat_badan || !user.tinggi_badan;
-    if (isMissingStats && !isCompleted) {
+    const isCompleted = localStorage.getItem('onboarding_completed') === 'true' || Boolean(user?.berat_badan && user?.tinggi_badan);
+    if (!isCompleted) {
       return <Navigate to="/onboarding" replace />;
     }
     return <Navigate to="/" replace />;

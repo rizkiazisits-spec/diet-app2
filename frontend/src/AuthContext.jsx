@@ -9,13 +9,6 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   const login = useCallback((accessToken, refreshToken) => {
-    localStorage.removeItem('profile_name');
-    localStorage.removeItem('profile_avatar');
-    localStorage.removeItem('profile_goal');
-    localStorage.removeItem('profile_deadline');
-    localStorage.removeItem('onboarding_completed');
-    localStorage.removeItem('chat_history');
-    
     localStorage.setItem('token', accessToken);
     if (refreshToken) localStorage.setItem('refresh_token', refreshToken);
     setToken(accessToken);
@@ -24,12 +17,6 @@ export function AuthProvider({ children }) {
   const logout = useCallback(() => {
     localStorage.removeItem('token');
     localStorage.removeItem('refresh_token');
-    localStorage.removeItem('profile_name');
-    localStorage.removeItem('profile_avatar');
-    localStorage.removeItem('profile_goal');
-    localStorage.removeItem('profile_deadline');
-    localStorage.removeItem('onboarding_completed');
-    localStorage.removeItem('chat_history');
     setToken(null);
     setUser(null);
     setLoading(false);
@@ -53,11 +40,13 @@ export function AuthProvider({ children }) {
         if (u.deadline) localStorage.setItem('profile_deadline', u.deadline);
         if (u.berat_badan && u.tinggi_badan) {
           localStorage.setItem('onboarding_completed', 'true');
-        } else {
-          localStorage.removeItem('onboarding_completed');
         }
       })
-      .catch(() => logout())
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          logout();
+        }
+      })
       .finally(() => setLoading(false));
   }, [token, logout]);
 

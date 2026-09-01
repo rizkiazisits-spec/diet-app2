@@ -22,30 +22,36 @@ API.interceptors.response.use(
     const originalRequest = error.config;
     
     // Check if error is 401 Unauthorized and request has not been retried yet
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 && 
+      !originalRequest._retry &&
+      !originalRequest.url?.includes('/auth/login') &&
+      !originalRequest.url?.includes('/auth/refresh')
+    ) {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem('refresh_token');
       
       if (refreshToken) {
         try {
-          // Get the base URL from the default configuration or fallback
-          const url = (API.defaults.baseURL || 'http://localhost:8000') + '/auth/refresh';
+          const baseURL = API.defaults.baseURL || '';
+          const url = baseURL ? `${baseURL}/auth/refresh` : '/auth/refresh';
           const res = await axios.post(url, { refresh_token: refreshToken });
           
           const { access_token, refresh_token } = res.data;
           
           // Store refreshed tokens
-          localStorage.setItem('token', access_token);
-          localStorage.setItem('refresh_token', refresh_token);
-          
-          // Retry original request with the new access token
-          originalRequest.headers.Authorization = `Bearer ${access_token}`;
-          return API(originalRequest);
+          if (access_token) {
+            localStorage.setItem('token', access_token);
+            if (refresh_token) localStorage.setItem('refresh_token', refresh_token);
+            
+            // Retry original request with the new access token
+            originalRequest.headers.Authorization = `Bearer ${access_token}`;
+            return API(originalRequest);
+          }
         } catch (refreshErr) {
-          // If refresh token request fails, logout and redirect to login page
+          // Refresh failed (invalid/expired refresh token)
           localStorage.removeItem('token');
           localStorage.removeItem('refresh_token');
-          window.location.href = '/login';
           return Promise.reject(refreshErr);
         }
       }
