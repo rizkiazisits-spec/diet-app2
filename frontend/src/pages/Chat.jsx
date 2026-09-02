@@ -12,7 +12,11 @@ export default function Chat() {
   const [messages, setMessages] = useState(() => {
     try {
       const userKey = user?.id ? `chat_history_${user.id}` : null;
-      const saved = (userKey && localStorage.getItem(userKey)) || localStorage.getItem('chat_history');
+      const saved = 
+        (userKey && localStorage.getItem(userKey)) || 
+        (userKey && sessionStorage.getItem(userKey)) || 
+        localStorage.getItem('chat_history') || 
+        sessionStorage.getItem('chat_history');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -26,7 +30,11 @@ export default function Chat() {
   useEffect(() => {
     if (user?.id) {
       const userKey = `chat_history_${user.id}`;
-      const saved = localStorage.getItem(userKey) || localStorage.getItem('chat_history');
+      const saved = 
+        localStorage.getItem(userKey) || 
+        sessionStorage.getItem(userKey) || 
+        localStorage.getItem('chat_history') || 
+        sessionStorage.getItem('chat_history');
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
@@ -39,9 +47,12 @@ export default function Chat() {
   // Persist messages whenever state changes
   useEffect(() => {
     if (messages.length > 0) {
-      localStorage.setItem('chat_history', JSON.stringify(messages));
+      const json = JSON.stringify(messages);
+      localStorage.setItem('chat_history', json);
+      sessionStorage.setItem('chat_history', json);
       if (user?.id) {
-        localStorage.setItem(`chat_history_${user.id}`, JSON.stringify(messages));
+        localStorage.setItem(`chat_history_${user.id}`, json);
+        sessionStorage.setItem(`chat_history_${user.id}`, json);
       }
     }
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });

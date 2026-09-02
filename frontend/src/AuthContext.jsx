@@ -40,6 +40,7 @@ export function AuthProvider({ children }) {
         if (u.deadline) localStorage.setItem('profile_deadline', u.deadline);
         if (u.berat_badan && u.tinggi_badan) {
           localStorage.setItem('onboarding_completed', 'true');
+          sessionStorage.setItem('onboarding_completed', 'true');
         }
       })
       .catch((err) => {

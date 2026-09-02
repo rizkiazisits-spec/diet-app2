@@ -127,10 +127,12 @@ export default function Onboarding() {
       localStorage.setItem('profile_goal', payload.goal);
       localStorage.setItem('profile_deadline', deadline);
       localStorage.setItem('onboarding_completed', 'true');
+      sessionStorage.setItem('onboarding_completed', 'true');
       navigate('/');
     } catch (err) {
       console.error("Gagal menyimpan profil:", err);
       localStorage.setItem('onboarding_completed', 'true');
+      sessionStorage.setItem('onboarding_completed', 'true');
       navigate('/');
     } finally {
       setSaving(false);
@@ -139,6 +141,7 @@ export default function Onboarding() {
 
   const handleSkip = () => {
     localStorage.setItem('onboarding_completed', 'true');
+    sessionStorage.setItem('onboarding_completed', 'true');
     navigate('/');
   };
 

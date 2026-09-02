@@ -28,7 +28,10 @@ function ProtectedLayout() {
     );
   }
 
-  const isCompleted = localStorage.getItem('onboarding_completed') === 'true' || Boolean(user?.berat_badan && user?.tinggi_badan);
+  const isCompleted = 
+    localStorage.getItem('onboarding_completed') === 'true' || 
+    sessionStorage.getItem('onboarding_completed') === 'true' || 
+    Boolean(user?.berat_badan && user?.tinggi_badan);
 
   if (!isCompleted && location.pathname !== '/onboarding') {
     return <Navigate to="/onboarding" replace />;
@@ -46,9 +49,22 @@ function ProtectedLayout() {
 }
 
 function GuestOnly() {
-  const { token, user } = useAuth();
+  const { token, user, loading } = useAuth();
   if (token) {
-    const isCompleted = localStorage.getItem('onboarding_completed') === 'true' || Boolean(user?.berat_badan && user?.tinggi_badan);
+    if (loading) {
+      return (
+        <div className="min-h-screen bg-[#f6faff] dark:bg-[#0a0a0a] flex flex-col items-center justify-center p-4">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 border-3 border-[#0ea5e9] border-t-transparent rounded-full animate-spin" />
+            <span className="text-xs font-semibold text-slate-500 dark:text-neutral-400">Memuat profil...</span>
+          </div>
+        </div>
+      );
+    }
+    const isCompleted = 
+      localStorage.getItem('onboarding_completed') === 'true' || 
+      sessionStorage.getItem('onboarding_completed') === 'true' || 
+      Boolean(user?.berat_badan && user?.tinggi_badan);
     if (!isCompleted) {
       return <Navigate to="/onboarding" replace />;
     }

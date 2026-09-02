@@ -37,6 +37,7 @@ export default function Register() {
       }
 
       localStorage.removeItem('onboarding_completed');
+      sessionStorage.removeItem('onboarding_completed');
       if (accessToken) {
         login(accessToken, refreshToken);
       }
