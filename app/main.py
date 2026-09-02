@@ -25,7 +25,11 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         - Membuat tabel database jika belum ada.
     """
     # Startup
-    await create_tables()
+    try:
+        await create_tables()
+        print("[INFO] Database tables initialized successfully.")
+    except Exception as e:
+        print(f"[WARNING] Database initialization error during startup: {e}")
     yield
     # Shutdown (cleanup jika diperlukan)
 
@@ -41,16 +45,10 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS — izinkan frontend
+# CORS — izinkan frontend (Vercel & local)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://diet-app2.vercel.app",
-        "http://localhost:5173",
-        "http://localhost:5174",
-        "http://127.0.0.1:5173",
-        "http://127.0.0.1:5174",
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -70,6 +68,16 @@ app.include_router(history.router)
 # ──────────────────────────────────────────────
 
 
+@app.get(
+    "/health",
+    tags=["Health"],
+    summary="Health check",
+)
+@app.get(
+    "/healthz",
+    tags=["Health"],
+    summary="Health check",
+)
 @app.get(
     "/",
     tags=["Health"],
