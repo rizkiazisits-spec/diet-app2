@@ -163,6 +163,7 @@ async def update_profile(
     for key, value in update_data.items():
         setattr(current_user, key, value)
     await db.flush()
+    await db.commit()
     await db.refresh(current_user)
     return UserProfile.model_validate(current_user)
 

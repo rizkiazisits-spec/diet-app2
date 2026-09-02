@@ -82,25 +82,53 @@ export default function Account() {
         avatar_url: form.avatarUrl,
         goal: form.goal,
         deadline: form.deadline,
-        berat_badan: Number(form.weight),
-        tinggi_badan: Number(form.height),
-        umur: Number(form.age),
         jenis_kelamin: form.gender === 'female' ? 'perempuan' : 'laki-laki'
       };
+
+      const wNum = parseFloat(form.weight);
+      if (!isNaN(wNum) && wNum > 0) payload.berat_badan = wNum;
+
+      const hNum = parseFloat(form.height);
+      if (!isNaN(hNum) && hNum > 0) payload.tinggi_badan = hNum;
+
+      const aNum = parseInt(form.age, 10);
+      if (!isNaN(aNum) && aNum > 0) payload.umur = aNum;
+
       const res = await updateProfile(payload);
       
-      // Save name & avatarUrl to localStorage for persistence
-      localStorage.setItem('profile_name', form.name);
-      localStorage.setItem('profile_avatar', form.avatarUrl);
-      localStorage.setItem('profile_goal', form.goal);
-      localStorage.setItem('profile_deadline', form.deadline);
+      // Save name & avatarUrl to localStorage & sessionStorage for persistence
+      if (form.name) {
+        localStorage.setItem('profile_name', form.name);
+        sessionStorage.setItem('profile_name', form.name);
+      }
+      if (form.avatarUrl) {
+        localStorage.setItem('profile_avatar', form.avatarUrl);
+        sessionStorage.setItem('profile_avatar', form.avatarUrl);
+      }
+      if (form.goal) {
+        localStorage.setItem('profile_goal', form.goal);
+        sessionStorage.setItem('profile_goal', form.goal);
+      }
+      if (form.deadline) {
+        localStorage.setItem('profile_deadline', form.deadline);
+        sessionStorage.setItem('profile_deadline', form.deadline);
+      }
+      
+      if (res.data?.berat_badan && res.data?.tinggi_badan) {
+        localStorage.setItem('onboarding_completed', 'true');
+        sessionStorage.setItem('onboarding_completed', 'true');
+      }
       
       setUser(res.data);
       setEditing(false);
+      alert('Profil berhasil diperbarui!');
     } catch (e) {
-      console.error(e);
+      console.error("Gagal update profile:", e);
+      const msg = e.response?.data?.detail || "Gagal menyimpan profil. Silakan periksa kembali data Anda.";
+      alert(typeof msg === 'string' ? msg : JSON.stringify(msg));
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
   };
 
   const handleLogout = () => {
@@ -398,7 +426,7 @@ export default function Account() {
               <input
                 type="number"
                 value={form.weight}
-                onChange={(e) => setForm({ ...form, weight: +e.target.value })}
+                onChange={(e) => setForm({ ...form, weight: e.target.value })}
                 className="w-full h-10 border border-slate-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 rounded-xl px-3 text-xs font-bold text-slate-800 dark:text-neutral-200 focus:outline-none focus:border-[#0ea5e9] mt-2"
               />
             ) : (
@@ -419,7 +447,7 @@ export default function Account() {
               <input
                 type="number"
                 value={form.height}
-                onChange={(e) => setForm({ ...form, height: +e.target.value })}
+                onChange={(e) => setForm({ ...form, height: e.target.value })}
                 className="w-full h-10 border border-slate-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 rounded-xl px-3 text-xs font-bold text-slate-800 dark:text-neutral-200 focus:outline-none focus:border-[#0ea5e9] mt-2"
               />
             ) : (
@@ -440,7 +468,7 @@ export default function Account() {
               <input
                 type="number"
                 value={form.age}
-                onChange={(e) => setForm({ ...form, age: +e.target.value })}
+                onChange={(e) => setForm({ ...form, age: e.target.value })}
                 className="w-full h-10 border border-slate-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 rounded-xl px-3 text-xs font-bold text-slate-800 dark:text-neutral-200 focus:outline-none focus:border-[#0ea5e9] mt-2"
               />
             ) : (
